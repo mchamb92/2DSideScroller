@@ -39,12 +39,13 @@ Navigate to the game's main directory and run the script:
 ```bash
 python main.py
 ```
-
 ## Controls
 
-- 
-- 
-- 
+- **A**: Move left
+- **D**: Move right
+- **Space**: Throw fireball
+- **Left Shift**: Use sword
+- **ESC**: Pause the game
 
 ## Built With
 
