@@ -43,6 +43,7 @@ python main.py
 
 - **A**: Move left
 - **D**: Move right
+- **W**: Jump
 - **Space**: Throw fireball
 - **Left Shift**: Use sword
 - **ESC**: Pause the game
