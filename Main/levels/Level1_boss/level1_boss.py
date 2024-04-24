@@ -4,8 +4,40 @@ import pygame
 class Boss(pygame.sprite.Sprite):
     def __init__(self, screen_width=600, screen_height=1500, initial_y=0, initial_x=None):
         super().__init__()
-        self.image = pygame.image.load("Main/Level1_img/boss/first_boss.png").convert_alpha()
-        
+        self.sprites = []
+        self.hurt = []
+        self.near = []
+        self.death = []
+        self.is_animating = True
+        boss_image1 = pygame.image.load("Main/Level1_img/boss/first_boss.png").convert_alpha()
+        boss_image2 = pygame.image.load("Main/Level1_img/boss/first_boss_2.png").convert_alpha()
+        boss_image3 = pygame.image.load("Main/Level1_img/boss/first_boss_half_health.png").convert_alpha()
+        boss_image4 = pygame.image.load("Main/Level1_img/boss/first_boss_half_health_2.png").convert_alpha()
+        boss_image5 = pygame.image.load("Main/Level1_Img/boss/first_boss_near_death.png").convert_alpha()
+        boss_image6 = pygame.image.load("Main/Level1_Img/boss/first_boss_near_death_2.png").convert_alpha()
+        boss_image7 = pygame.image.load("Main/Level1_Img/boss/first_boss_death.png").convert_alpha()
+        boss_image8 = pygame.image.load("Main/Level1_Img/boss/first_boss_death_2.png").convert_alpha()
+        # Resize images 
+        boss_image1 = pygame.transform.scale(boss_image1, (208, 208))
+        boss_image2 = pygame.transform.scale(boss_image2, (208, 208))
+        boss_image3 = pygame.transform.scale(boss_image3, (208, 208))
+        boss_image4 = pygame.transform.scale(boss_image4, (208, 208))
+        boss_image5 = pygame.transform.scale(boss_image5, (208, 208))
+        boss_image6 = pygame.transform.scale(boss_image6, (208, 208))
+        boss_image7 = pygame.transform.scale(boss_image7, (208, 208))
+        boss_image8 = pygame.transform.scale(boss_image8, (208, 208))
+        self.sprites.append(boss_image1)
+        self.sprites.append(boss_image2)
+        self.hurt.append(boss_image3)
+        self.hurt.append(boss_image4)
+        self.near.append(boss_image5)
+        self.near.append(boss_image6)
+        self.death.append(boss_image7)
+        self.death.append(boss_image8)
+        self.current_sprite = 0
+        self.image_change_delay = 10
+        self.current_delay = 0
+        self.image = self.sprites[self.current_sprite]
         self.rect = self.image.get_rect()
         
         # Set initial positions
@@ -60,7 +92,26 @@ class Boss(pygame.sprite.Sprite):
 
 
     def update(self):
+        if self.is_animating == True:
+            self.current_delay += 1
+
+            if self.current_delay >= self.image_change_delay:
+                self.current_sprite += 1
+                self.current_delay = 0
+
+                if self.current_sprite >= len(self.sprites):
+                    self.current_sprite = 0
+
+                self.image = self.sprites[self.current_sprite]
+                
+        if self.health <= 500:
+             self.sprites = self.hurt
         
+        if self.health <= 250:
+            self.sprites = self.near
+        
+        if self.health == 10:
+            self.sprites = self.death                
         # speed based on direction
         self.rect.x += self.speed_x * self.direction_x
         
